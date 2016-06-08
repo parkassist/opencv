@@ -1,0 +1,1 @@
+cmake -DCMAKE_TOOLCHAIN_FILE=/root/Projects/sources/opencv-2.4.13/platforms/linux/arm-gnueabi.toolchain.cmake /root/Projects/sources/opencv-2.4.13
