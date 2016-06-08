@@ -228,15 +228,23 @@ CvRTrees::CvRTrees()
 void CvRTrees::clear()
 {
     int k;
-    for( k = 0; k < ntrees; k++ )
-        delete trees[k];
-    cvFree( &trees );
 
-    delete data;
-    data = 0;
+    if(trees != NULL) {
+        for( k = 0; k < ntrees; k++) {
+            delete trees[k];
+        }
+        delete[] trees;
+        trees = NULL;
+//        cvFree( &trees );
+    }
 
-    cvReleaseMat( &active_var_mask );
-    cvReleaseMat( &var_importance );
+    if(data != NULL) {
+        delete data;
+        data = NULL;
+
+        cvReleaseMat( &active_var_mask );
+        cvReleaseMat( &var_importance );
+    }
     ntrees = 0;
 }
 
@@ -666,7 +674,7 @@ float CvRTrees::predict( const CvMat* sample, const CvMat* missing ) const
 {
     double result = -1;
     int k;
-
+    
     if( nclasses > 0 ) //classification
     {
         int max_nvotes = 0;
@@ -781,8 +789,9 @@ void CvRTrees::read( CvFileStorage* fs, CvFileNode* fnode )
 
     rng = &cv::theRNG();
 
-    trees = (CvForestTree**)cvAlloc( sizeof(trees[0])*ntrees );
-    memset( trees, 0, sizeof(trees[0])*ntrees );
+//    trees = (CvForestTree**)cvAlloc( sizeof(trees[0])*ntrees );
+    trees = (CvForestTree **)new CvForestTree*[ntrees];
+    memset(trees, 0, sizeof(trees[0])*ntrees );
 
     data = new CvDTreeTrainData();
     data->read_params( fs, fnode );

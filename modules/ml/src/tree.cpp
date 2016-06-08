@@ -1476,7 +1476,11 @@ void CvDTreeTrainData::read_params( CvFileStorage* fs, CvFileNode* node )
 
     tree_block_size = MAX((int)sizeof(CvDTreeNode)*8, max_split_size);
     tree_block_size = MAX(tree_block_size + block_size_delta, min_block_size);
-    CV_CALL( tree_storage = cvCreateMemStorage( tree_block_size ));
+//    CV_CALL( tree_storage = cvCreateMemStorage( tree_block_size ));
+    // Modified to a large heap allocation to prevent fragmentation. 
+    // Could be wasting some memory but it is necessary.
+    CV_CALL( tree_storage = cvCreateMemStorage(TREE_STORAGE_HEAP_ALLOC_SIZE));
+
     CV_CALL( node_heap = cvCreateSet( 0, sizeof(node_heap[0]),
             sizeof(CvDTreeNode), tree_storage ));
     CV_CALL( split_heap = cvCreateSet( 0, sizeof(split_heap[0]),
@@ -1519,10 +1523,12 @@ void CvDTree::clear()
     cvReleaseMat( &var_importance );
     if( data )
     {
-        if( !data->shared )
+        if( !data->shared ) {
             delete data;
-        else
+        }
+        else {
             free_tree();
+        }
         data = 0;
     }
     root = 0;
@@ -4003,6 +4009,7 @@ CvDTreeNode* CvDTree::read_node( CvFileStorage* fs, CvFileNode* fnode, CvDTreeNo
 
     __BEGIN__;
 
+
     CvFileNode* splits;
     int i, depth;
 
@@ -4122,6 +4129,7 @@ void CvDTree::read( CvFileStorage* fs, CvFileNode* node, CvDTreeTrainData* _data
         CV_ERROR( CV_StsParseError, "nodes tag is missing" );
 
     pruned_tree_idx = cvReadIntByName( fs, node, "best_tree_idx", -1 );
+
     read_tree_nodes( fs, tree_nodes );
 
     __END__;

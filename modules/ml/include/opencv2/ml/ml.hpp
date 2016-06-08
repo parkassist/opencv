@@ -131,6 +131,8 @@ CV_INLINE CvParamLattice cvDefaultParamLattice( void )
 #define CV_TRAIN_ERROR  0
 #define CV_TEST_ERROR   1
 
+#define TREE_STORAGE_HEAP_ALLOC_SIZE (1024*1024)
+
 class CV_EXPORTS_W CvStatModel
 {
 public:
