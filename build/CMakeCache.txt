@@ -17,6 +17,9 @@
 //Path to a program.
 ANT_EXECUTABLE:FILEPATH=ANT_EXECUTABLE-NOTFOUND
 
+//ARM cross compilation system root
+ARM_LINUX_SYSROOT:PATH=/root/Projects/m3-projects/sysroot/imx6
+
 //Path to a program.
 BIBTEX_COMPILER:FILEPATH=BIBTEX_COMPILER-NOTFOUND
 
@@ -299,8 +302,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/strip
 
-//No help, variable specified on the command line.
-CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=/root/Projects/m3-projects/libraries/opencv/platforms/linux/arm-gnueabi.toolchain.cmake
+//The CMake toolchain file
+CMAKE_TOOLCHAIN_FILE:FILEPATH=/root/Projects/m3-projects/libraries/opencv/platforms/linux/arm-gnueabi.toolchain.cmake
 
 //If true, cmake will use relative paths in makefiles and projects.
 CMAKE_USE_RELATIVE_PATHS:BOOL=OFF
@@ -452,17 +455,11 @@ DVIPS_CONVERTER:FILEPATH=DVIPS_CONVERTER-NOTFOUND
 //The path to Eigen3/Eigen2 headers
 EIGEN_INCLUDE_PATH:PATH=EIGEN_INCLUDE_PATH-NOTFOUND
 
-//Enable AVX instructions
-ENABLE_AVX:BOOL=OFF
-
-//Enable AVX2 instructions
-ENABLE_AVX2:BOOL=OFF
-
 //Enable coverage collection with  GCov
 ENABLE_COVERAGE:BOOL=OFF
 
-//Enable -ffast-math (not recommended for GCC 4.6.x)
-ENABLE_FAST_MATH:BOOL=OFF
+//Enable NEON instructions
+ENABLE_NEON:BOOL=OFF
 
 //Show all warnings even if they are too noisy
 ENABLE_NOISY_WARNINGS:BOOL=OFF
@@ -479,26 +476,14 @@ ENABLE_PROFILING:BOOL=OFF
 //Solution folder in Visual Studio or in other IDEs
 ENABLE_SOLUTION_FOLDERS:BOOL=OFF
 
-//Enable SSE instructions
-ENABLE_SSE:BOOL=ON
-
-//Enable SSE2 instructions
-ENABLE_SSE2:BOOL=ON
-
-//Enable SSE3 instructions
-ENABLE_SSE3:BOOL=ON
-
-//Enable SSE4.1 instructions
-ENABLE_SSE41:BOOL=OFF
-
-//Enable SSE4.2 instructions
-ENABLE_SSE42:BOOL=OFF
-
-//Enable SSSE3 instructions
-ENABLE_SSSE3:BOOL=OFF
+//Enable VFPv3-D32 instructions
+ENABLE_VFPV3:BOOL=OFF
 
 //Output directory for applications
 EXECUTABLE_OUTPUT_PATH:PATH=/root/Projects/m3-projects/libraries/opencv/build/bin
+
+//GCC Compiler version
+GCC_COMPILER_VERSION:STRING=
 
 //The path to Smartek GigEVisionSDK header
 GIGEAPI_INCLUDE_PATH:PATH=GIGEAPI_INCLUDE_PATH-NOTFOUND
@@ -547,6 +532,12 @@ JAVA_INCLUDE_PATH2:PATH=JAVA_INCLUDE_PATH2-NOTFOUND
 
 //Path to a library.
 JAVA_JVM_LIBRARY:FILEPATH=JAVA_JVM_LIBRARY-NOTFOUND
+
+//Path to a file.
+JPEG_INCLUDE_DIR:PATH=/root/Projects/m3-projects/sysroot/imx6/usr/include
+
+//Path to a library.
+JPEG_LIBRARY:FILEPATH=/root/Projects/m3-projects/sysroot/imx6/usr/lib/libjpeg.so
 
 //Path to a program.
 LATEX2HTML_CONVERTER:FILEPATH=LATEX2HTML_CONVERTER-NOTFOUND
@@ -622,7 +613,7 @@ PYTHON_INCLUDE_DIR:PATH=PYTHON_INCLUDE_DIR-NOTFOUND
 PYTHON_INCLUDE_DIR2:PATH=PYTHON_INCLUDE_DIR2-NOTFOUND
 
 //Path to a library.
-PYTHON_LIBRARY:FILEPATH=PYTHON_LIBRARY-NOTFOUND
+PYTHON_LIBRARY:FILEPATH=/root/Projects/m3-projects/sysroot/imx6/usr/lib/libpython2.7.a
 
 //Path to a library.
 PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
@@ -669,9 +660,6 @@ WITH_GSTREAMER_0_10:BOOL=OFF
 
 //Include GTK support
 WITH_GTK:BOOL=OFF
-
-//Include Intel IPP support
-WITH_IPP:BOOL=OFF
 
 //Include JPEG2K support
 WITH_JASPER:BOOL=OFF
@@ -727,14 +715,17 @@ WITH_UNICAP:BOOL=OFF
 //Include Video 4 Linux support
 WITH_V4L:BOOL=OFF
 
-//Include VTK library support (and build opencv_viz module eiher)
-WITH_VTK:BOOL=OFF
-
 //Include XIMEA cameras support
 WITH_XIMEA:BOOL=OFF
 
 //Include Xine support (GPL)
 WITH_XINE:BOOL=OFF
+
+//Path to a file.
+ZLIB_INCLUDE_DIR:PATH=/root/Projects/m3-projects/sysroot/imx6/usr/include
+
+//Path to a library.
+ZLIB_LIBRARY:FILEPATH=/root/Projects/m3-projects/sysroot/imx6/lib/libz.so
 
 //Value Computed by CMake
 annotation_BINARY_DIR:STATIC=/root/Projects/m3-projects/libraries/opencv/build/apps/annotation
@@ -812,7 +803,7 @@ opencv_contrib_pch_dephelp_LIB_DEPENDS:STATIC=
 opencv_core_BINARY_DIR:STATIC=/root/Projects/m3-projects/libraries/opencv/build/modules/core
 
 //Dependencies for the target
-opencv_core_LIB_DEPENDS:STATIC=general;zlib;general;dl;general;m;general;pthread;general;rt;
+opencv_core_LIB_DEPENDS:STATIC=general;/root/Projects/m3-projects/sysroot/imx6/lib/libz.so;general;dl;general;m;general;pthread;general;rt;
 
 //Value Computed by CMake
 opencv_core_SOURCE_DIR:STATIC=/root/Projects/m3-projects/libraries/opencv/modules/core
@@ -863,7 +854,7 @@ opencv_haartraining_engine_LIB_DEPENDS:STATIC=general;dl;general;m;general;pthre
 opencv_highgui_BINARY_DIR:STATIC=/root/Projects/m3-projects/libraries/opencv/build/modules/highgui
 
 //Dependencies for the target
-opencv_highgui_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;general;dl;general;m;general;pthread;general;rt;general;libjpeg;
+opencv_highgui_LIB_DEPENDS:STATIC=general;opencv_core;general;opencv_imgproc;general;dl;general;m;general;pthread;general;rt;general;/root/Projects/m3-projects/sysroot/imx6/usr/lib/libjpeg.so;
 
 //Value Computed by CMake
 opencv_highgui_SOURCE_DIR:STATIC=/root/Projects/m3-projects/libraries/opencv/modules/highgui
@@ -1777,7 +1768,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=37
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=35
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1907,11 +1898,11 @@ DVIPDF_CONVERTER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DVIPS_CONVERTER
 DVIPS_CONVERTER-ADVANCED:INTERNAL=1
 //Details about finding JPEG
-FIND_PACKAGE_MESSAGE_DETAILS_JPEG:INTERNAL=[libjpeg][/root/Projects/m3-projects/libraries/opencv/3rdparty/libjpeg][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_JPEG:INTERNAL=[/root/Projects/m3-projects/sysroot/imx6/usr/lib/libjpeg.so][/root/Projects/m3-projects/sysroot/imx6/usr/include][v()]
 //Details about finding PythonInterp
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python2][v2.7.6(2.0)]
 //Details about finding ZLIB
-FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[zlib][/root/Projects/m3-projects/libraries/opencv/3rdparty/zlib;/root/Projects/m3-projects/libraries/opencv/build/3rdparty/zlib][v1.2.7()]
+FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[/root/Projects/m3-projects/sysroot/imx6/lib/libz.so][/root/Projects/m3-projects/sysroot/imx6/usr/include][v1.2.3()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include assert.h
@@ -2194,6 +2185,10 @@ JAVA_INCLUDE_PATH-ADVANCED:INTERNAL=1
 JAVA_INCLUDE_PATH2-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: JAVA_JVM_LIBRARY
 JAVA_JVM_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: JPEG_INCLUDE_DIR
+JPEG_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: JPEG_LIBRARY
+JPEG_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: LATEX2HTML_CONVERTER
 LATEX2HTML_CONVERTER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: LATEX_COMPILER
@@ -2276,7 +2271,7 @@ OPENCV_MODULE_opencv_core_CLASS:INTERNAL=PUBLIC
 //Flattened dependencies of opencv_core module
 OPENCV_MODULE_opencv_core_DEPS:INTERNAL=
 //Extra dependencies of opencv_core module
-OPENCV_MODULE_opencv_core_DEPS_EXT:INTERNAL=zlib
+OPENCV_MODULE_opencv_core_DEPS_EXT:INTERNAL=/root/Projects/m3-projects/sysroot/imx6/lib/libz.so
 OPENCV_MODULE_opencv_core_DEPS_ORDERED:INTERNAL=
 //Brief description of opencv_core module
 OPENCV_MODULE_opencv_core_DESCRIPTION:INTERNAL=The Core Functionality
@@ -2289,7 +2284,7 @@ OPENCV_MODULE_opencv_core_OPT_DEPS:INTERNAL=
 //Optional private dependencies of opencv_core module
 OPENCV_MODULE_opencv_core_PRIVATE_OPT_DEPS:INTERNAL=
 //Required private dependencies of opencv_core module
-OPENCV_MODULE_opencv_core_PRIVATE_REQ_DEPS:INTERNAL=zlib
+OPENCV_MODULE_opencv_core_PRIVATE_REQ_DEPS:INTERNAL=/root/Projects/m3-projects/sysroot/imx6/lib/libz.so
 //Required dependencies of opencv_core module
 OPENCV_MODULE_opencv_core_REQ_DEPS:INTERNAL=
 //List of source files for opencv_core
@@ -2662,6 +2657,10 @@ PYTHON_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 PYTHON_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //Result of TEST_BIG_ENDIAN
 WORDS_BIGENDIAN:INTERNAL=0
+//ADVANCED property for variable: ZLIB_INCLUDE_DIR
+ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY
+ZLIB_LIBRARY-ADVANCED:INTERNAL=1
 //Have include unistd.h
 Z_HAVE_UNISTD_H:INTERNAL=1
 //Result of TRY_COMPILE
